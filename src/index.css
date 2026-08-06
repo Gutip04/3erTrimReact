@@ -1,0 +1,34 @@
+:root {
+  /* Paleta Blaugrana profesional */
+  --azul-blaugrana: #004d98;
+  --grana-blaugrana: #a50044;
+  --amarillo-acento: #ffed00;
+  
+  /* Tonos claros y neutros */
+  --fondo-pagina: #f8fafc;
+  --blanco-card: #ffffff;
+  --texto-principal: #0f172a;
+  --texto-secundario: #64748b;
+  --borde-suave: #e2e8f0;
+  
+  /* Sombras elegantes */
+  --sombra-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --sombra-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--fondo-pagina);
+  color: var(--texto-principal);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.5rem 1rem;
+}
