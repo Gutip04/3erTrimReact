@@ -6,6 +6,7 @@ export default function EditarContactoModal({ contacto, isOpen, onClose, onGuard
     telefono: "",
     correo: "",
     etiqueta: "",
+    
   });
 
   // Cargar datos del contacto cuando abre el modal o cambia el contacto seleccionado
