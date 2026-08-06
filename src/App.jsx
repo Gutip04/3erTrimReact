@@ -1,6 +1,7 @@
 
 import { useState,useEffect } from "react";
-import "./App.css";
+// import "./input.css";
+// import "./output.css";
 import ContactoCard from "./components/ContactoCard";
 import FormularioContacto from "./components/FormularioContacto";
 import EditarContactoModal from "./components/EditarContactoModal"; 
@@ -55,40 +56,34 @@ export default function App() {
     );
   }
 
-
-
-
-
-  return (
-    <main className="app-container">
+return (
+    <main className="min-h-screen bg-gradient-to-b from-lime-50 to-white">
+      <div className="max-w-3xl mx-auto px-6 py-10">
         <Saludar />
-      <header className="app-header">
-        <h1 className="app-title">Agenda ADSO v2</h1>
-        <p className="app-subtitle">Gestión de Contactos</p>
-      </header>
-      
-      <FormularioContacto onAgregar={agregarContacto} />
-      <section className="lista-contactos">
-        {contactos.map((c) => (
-          <ContactoCard
-            key={c.id}
-            id={c.id}
-            nombre={c.nombre}
-            telefono={c.telefono}
-            correo={c.correo}
-            etiqueta={c.etiqueta}
-            onDelete={eliminarContacto}
-            onEdit={(contacto) => setContactoEditar(contacto)}
-          />
-        ))}
-      </section>
+        <header className="text-center my-9">
+          <h1 className="font-sans font-extrabold text-3xl text-lime-900 tracking-tight">Agenda ADSO v2</h1>
+          <p className="text-neutral-500 font-medium mt-1">
+            <span className="inline-block w-2 h-2 rounded-full bg-lime-500 mr-2 align-middle"></span>
+            Gestión de Contactos
+          </p>
+        </header>
 
-      <EditarContactoModal
-        isOpen={Boolean(contactoEditar)}
-        contacto={contactoEditar}
-        onClose={() => setContactoEditar(null)}
-        onGuardar={guardarEdicion}
-      />
+        <FormularioContacto onAgregar={agregarContacto} />
+
+        <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-9">
+          {contactos.map((c) => (
+            <ContactoCard key={c.id} {...c} onDelete={eliminarContacto} onEdit={setContactoEditar} />
+          ))}
+        </section>
+
+        <EditarContactoModal
+          isOpen={Boolean(contactoEditar)}
+          contacto={contactoEditar}
+          onClose={() => setContactoEditar(null)}
+          onGuardar={guardarEdicion}
+        />
+      </div>
     </main>
   );
 }
+
