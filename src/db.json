@@ -1,0 +1,33 @@
+{
+  "contactos": [
+    {
+      "id": "1",
+      "nombre": "Carolina Pérez 2",
+      "telefono": "300 123 4567",
+      "correo": "carolina@sena.edu.co",
+      "etiqueta": "Compañera"
+    },
+    {
+      "id": "2",
+      "nombre": "Carolina Pérez 77",
+      "telefono": "300 123 4568",
+      "correo": "carolina@sfccxedu.co",
+      "etiqueta": "Compañere"
+    },
+    {
+      "id": "3",
+      "nombre": "Carolina Pérez 4",
+      "telefono": "300 123 4567",
+      "correo": "carolina@sena.edu.co",
+      "etiqueta": "Compañera"
+    },
+    {
+      "id": "4",
+      "nombre": "Carolina Pérez 5",
+      "telefono": "300 123 4567",
+      "correo": "carolina@sena.edu.co",
+      "etiqueta": "Compañera"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
