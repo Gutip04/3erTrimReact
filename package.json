@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "tailwind": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+    "tailwind": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch",
+    "json": "json-server --watch ./src/db.json --port 3001"
   },
   "dependencies": {
     "react": "^19.2.7",
