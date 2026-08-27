@@ -6,6 +6,7 @@ import ContactoCard from "./components/ContactoCard";
 import FormularioContacto from "./components/FormularioContacto";
 import EditarContactoModal from "./components/EditarContactoModal";
 import Saludar from "./components/Saludar"
+import Buscador from "./components/Buscador";
 
 // const CONTACTOS_INICIALES = [
 //   { id: 1, nombre: "Carolina Pérez", telefono: "300 123 4567", correo: "carolina@sena.edu.co", etiqueta: "Compañera" },
@@ -116,6 +117,8 @@ export default function App() {
     }
   };
 
+  
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-lime-50 to-white">
       <div className="max-w-3xl mx-auto px-6 py-10">
@@ -130,10 +133,14 @@ export default function App() {
 
         <FormularioContacto onAgregar={agregarContacto} />
 
-        <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-9">
-          {contactos.map((c) => (
-            <ContactoCard key={c.id} {...c} onDelete={eliminarContacto} onEdit={setContactoEditar} />
-          ))}
+
+        <section className="py-3">
+        <Buscador 
+          datos={contactos}
+          propiedades={["nombre", "correo", "etiquetas"]}
+          onDelete={eliminarContacto}
+          onEdit={setContactoEditar}
+        />
         </section>
 
         <EditarContactoModal

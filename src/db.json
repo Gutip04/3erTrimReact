@@ -9,24 +9,31 @@
     },
     {
       "id": "2",
-      "nombre": "Carolina Pérez 77",
+      "nombre": "Julian Caseres 77",
       "telefono": "300 123 4568",
-      "correo": "carolina@sfccxedu.co",
+      "correo": "jualian1@sfccxedu.co",
       "etiqueta": "Compañere"
     },
     {
       "id": "3",
-      "nombre": "Carolina Pérez 4",
+      "nombre": "estevban yepes 4",
       "telefono": "300 123 4567",
-      "correo": "carolina@sena.edu.co",
+      "correo": "yepes@sena.edu.co",
       "etiqueta": "Compañera"
     },
     {
       "id": "4",
-      "nombre": "Carolina Pérez 5",
+      "nombre": "Carolina ardila 5",
       "telefono": "300 123 4567",
-      "correo": "carolina@sena.edu.co",
+      "correo": "carolinaardi@sena.edu.co",
       "etiqueta": "Compañera"
+    },
+    {
+      "nombre": "f",
+      "correo": "palo@gmial.com",
+      "telefono": "2565434565",
+      "etiqueta": "Compañere",
+      "id": "rEI--Z5mzAU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
