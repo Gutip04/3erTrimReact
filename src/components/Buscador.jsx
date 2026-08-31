@@ -5,11 +5,24 @@ import ContactoCard from "./ContactoCard";
 
 export default function Buscador({ datos = [], onDelete, onEdit }) {
 
+
   const [busqueda, setBusqueda] = useState("");
+
   const [orden, setOrden] = useState("asc");
 
 
-  // Filtrar contactos
+  // Paginación
+
+  const [paginaActual, setPaginaActual] = useState(1);
+
+  const contactosPorPagina = 5;
+
+
+
+  // ============================
+  // FILTRAR CONTACTOS
+  // ============================
+
   let resultados = datos;
 
 
@@ -17,30 +30,140 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
 
     const termino = busqueda.toLowerCase();
 
-    resultados = datos.filter((item) =>
-      item.nombre &&
-      item.nombre.toLowerCase().includes(termino)
+
+    resultados = datos.filter((contacto) =>
+
+      contacto.nombre.toLowerCase().includes(termino)
+
     );
 
   }
 
 
 
-  // Ordenar contactos
+  // ============================
+  // ORDENAR CONTACTOS
+  // ============================
+
   resultados = [...resultados].sort((a, b) =>
+
     orden === "asc"
+
       ? a.nombre.localeCompare(b.nombre)
+
       : b.nombre.localeCompare(a.nombre)
+
   );
 
 
 
-  // Cambiar orden A-Z / Z-A
+
+  // ============================
+  // PAGINACIÓN
+  // ============================
+
+
+  const totalPaginas = Math.ceil(
+
+    resultados.length / contactosPorPagina
+
+  );
+
+
+
+  const indiceFinal = paginaActual * contactosPorPagina;
+
+
+  const indiceInicial = indiceFinal - contactosPorPagina;
+
+
+
+  const contactosPagina = resultados.slice(
+
+    indiceInicial,
+
+    indiceFinal
+
+  );
+
+
+
+
+
+  // Cambiar orden
+
   const alternarOrden = () => {
 
-    setOrden(orden === "asc" ? "desc" : "asc");
+
+    setOrden(
+
+      orden === "asc"
+
+      ? "desc"
+
+      : "asc"
+
+    );
+
 
   };
+
+
+
+
+
+  // Buscar y volver a página 1
+
+  const cambiarBusqueda = (e) => {
+
+
+    setBusqueda(e.target.value);
+
+
+    setPaginaActual(1);
+
+
+  };
+
+
+
+
+
+  // Página siguiente
+
+  const siguientePagina = () => {
+
+
+    if (paginaActual < totalPaginas) {
+
+      setPaginaActual(paginaActual + 1);
+
+    }
+
+
+  };
+
+
+
+
+
+  // Página anterior
+
+  const paginaAnterior = () => {
+
+
+    if (paginaActual > 1) {
+
+      setPaginaActual(paginaActual - 1);
+
+    }
+
+
+  };
+
+
+
+
 
 
 
@@ -49,41 +172,65 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
     <div className="space-y-6">
 
 
-      {/* Buscador y botón ordenar */}
+
+
+
+      {/* BUSCADOR Y ORDEN */}
+
 
       <div className="flex flex-col sm:flex-row gap-3">
 
 
+
         <input
+
 
           type="text"
 
+
           placeholder="Buscar por nombre..."
+
 
           value={busqueda}
 
-          onChange={(e) => setBusqueda(e.target.value)}
+
+          onChange={cambiarBusqueda}
+
 
           className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500 bg-white shadow-sm"
+
 
         />
 
 
 
+
         <button
+
 
           onClick={alternarOrden}
 
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium rounded-lg border border-neutral-300 transition-colors cursor-pointer"
+
+          className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-lg border"
+
 
         >
 
-          <span>Ordenar:</span>
+
+          Ordenar:
 
 
-          <span className="font-bold text-lime-700">
+          <span className="font-bold text-lime-700 ml-2">
 
-            {orden === "asc" ? "A-Z ↑" : "Z-A ↓"}
+
+            {orden === "asc"
+
+              ? "A-Z ↑"
+
+              : "Z-A ↓"
+
+            }
+
 
           </span>
 
@@ -91,52 +238,157 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
         </button>
 
 
+
       </div>
 
 
 
 
-      {/* Lista de contactos */}
+
+
+
+      {/* CONTACTOS */}
+
+
 
       <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
 
-        {resultados.length > 0 ? (
+
+        {contactosPagina.length > 0 ? (
 
 
-          resultados.map((contacto) => (
+
+          contactosPagina.map((contacto) => (
+
 
 
             <ContactoCard
 
+
               key={contacto.id}
+
 
               {...contacto}
 
+
               onDelete={onDelete}
+
 
               onEdit={onEdit}
 
+
             />
+
 
 
           ))
 
 
+
         ) : (
 
 
-          <p className="col-span-full text-center text-neutral-500 text-sm py-4">
+
+          <p className="col-span-full text-center text-neutral-500">
+
 
             No se encontraron contactos.
 
+
           </p>
+
 
 
         )}
 
 
+
       </section>
+
+
+
+
+
+
+
+      {/* PAGINACIÓN */}
+
+
+
+      {totalPaginas > 1 && (
+
+
+
+        <div className="flex justify-center items-center gap-4 mt-6">
+
+
+
+          <button
+
+
+            onClick={paginaAnterior}
+
+
+            disabled={paginaActual === 1}
+
+
+            className="px-4 py-2 bg-neutral-200 rounded-lg disabled:opacity-50"
+
+
+          >
+
+
+            ⬅ Anterior
+
+
+          </button>
+
+
+
+
+
+          <span className="font-medium">
+
+
+            Página {paginaActual} de {totalPaginas}
+
+
+          </span>
+
+
+
+
+
+          <button
+
+
+            onClick={siguientePagina}
+
+
+            disabled={paginaActual === totalPaginas}
+
+
+            className="px-4 py-2 bg-neutral-200 rounded-lg disabled:opacity-50"
+
+
+          >
+
+
+            Siguiente ➡
+
+
+          </button>
+
+
+
+        </div>
+
+
+
+      )}
+
+
 
 
     </div>

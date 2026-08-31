@@ -34,6 +34,13 @@
       "telefono": "2565434565",
       "etiqueta": "Compañere",
       "id": "rEI--Z5mzAU"
+    },
+    {
+      "nombre": "andres",
+      "correo": "andress@gmail.com",
+      "telefono": "0123456789",
+      "etiqueta": "Director",
+      "id": "RmRWD6470Rc"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
