@@ -7,14 +7,12 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
 
 
   const [busqueda, setBusqueda] = useState("");
-
   const [orden, setOrden] = useState("asc");
 
 
   // Paginación
 
   const [paginaActual, setPaginaActual] = useState(1);
-
   const contactosPorPagina = 5;
 
 
@@ -24,17 +22,11 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
   // ============================
 
   let resultados = datos;
-
-
   if (busqueda.trim()) {
 
     const termino = busqueda.toLowerCase();
-
-
     resultados = datos.filter((contacto) =>
-
       contacto.nombre.toLowerCase().includes(termino)
-
     );
 
   }
@@ -46,11 +38,8 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
   // ============================
 
   resultados = [...resultados].sort((a, b) =>
-
     orden === "asc"
-
       ? a.nombre.localeCompare(b.nombre)
-
       : b.nombre.localeCompare(a.nombre)
 
   );
@@ -64,26 +53,19 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
 
 
   const totalPaginas = Math.ceil(
-
     resultados.length / contactosPorPagina
-
   );
 
 
 
   const indiceFinal = paginaActual * contactosPorPagina;
-
-
   const indiceInicial = indiceFinal - contactosPorPagina;
 
 
 
   const contactosPagina = resultados.slice(
-
     indiceInicial,
-
     indiceFinal
-
   );
 
 
@@ -93,19 +75,12 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
   // Cambiar orden
 
   const alternarOrden = () => {
-
-
     setOrden(
 
       orden === "asc"
-
-      ? "desc"
-
-      : "asc"
-
+        ? "desc"
+        : "asc"
     );
-
-
   };
 
 
@@ -115,11 +90,7 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
   // Buscar y volver a página 1
 
   const cambiarBusqueda = (e) => {
-
-
     setBusqueda(e.target.value);
-
-
     setPaginaActual(1);
 
 
@@ -132,7 +103,6 @@ export default function Buscador({ datos = [], onDelete, onEdit }) {
   // Página siguiente
 
   const siguientePagina = () => {
-
 
     if (paginaActual < totalPaginas) {
 
