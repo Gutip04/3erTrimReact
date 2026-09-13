@@ -1,39 +1,18 @@
 {
   "contactos": [
     {
-      "id": "1",
-      "nombre": "Carolina Pérez 2",
-      "telefono": "300 123 4567",
-      "correo": "carolina@sena.edu.co",
-      "etiqueta": "Compañera"
+      "id": "o1tkSsOziIU",
+      "nombre": "A",
+      "telefono": "321",
+      "correo": "A@gmail.com",
+      "etiqueta": "Director1"
     },
     {
-      "id": "2",
-      "nombre": "Julian Caseres 77",
-      "telefono": "300 123 4568",
-      "correo": "jualian1@sfccxedu.co",
-      "etiqueta": "Compañere"
-    },
-    {
-      "id": "3",
-      "nombre": "estevban yepes 4",
-      "telefono": "300 123 4567",
-      "correo": "yepes@sena.edu.co",
-      "etiqueta": "Compañera"
-    },
-    {
-      "id": "4",
-      "nombre": "Carolina ardila 5",
-      "telefono": "300 123 4567",
-      "correo": "carolinaardi@sena.edu.co",
-      "etiqueta": "Compañera"
-    },
-    {
-      "nombre": "f",
-      "correo": "palo@gmial.com",
-      "telefono": "2565434565",
-      "etiqueta": "Compañere",
-      "id": "rEI--Z5mzAU"
+      "nombre": "zzzyty",
+      "correo": "q232@gmail.com",
+      "telefono": "121232",
+      "etiqueta": "Director2",
+      "id": "lY84vNmtQ54"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

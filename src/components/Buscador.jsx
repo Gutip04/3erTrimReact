@@ -1,83 +1,368 @@
-import { useMemo, useState } from "react"
-import ContactoCard from "./ContactoCard"
+import { useState } from "react";
 
-export default function Buscador({datos = [], propiedades = [], onDelete, onEdit }){
-    const [busqueda, setBusqueda] = useState("")
-    const [orden, setOrden] = useState("asc");
-
-    const resultados = useMemo(() =>{
-    // 1. Filtrado
-    let lista = datos;
-    if (busqueda.trim()) {
-      const termino = busqueda.toLowerCase();
-      lista = datos.filter((item) =>
-        item.nombre != null && String(item.nombre).toLowerCase().includes(termino)
-      );
-    }
-
-    // 2. Ordenamiento (Crea una copia con [...] para no mutar los props)
-    if (orden === "ninguno") return lista;
-
-    return [...lista].sort((a, b) => {
-      const nombreA = (a.nombre || "").toLowerCase();
-      const nombreB = (b.nombre || "").toLowerCase();
-
-      if (orden === "asc") {
-        return nombreA.localeCompare(nombreB);
-      } else {
-        return nombreB.localeCompare(nombreA);
-      }
-    });
-  }, [busqueda, datos, propiedades, orden]);
+import ContactoCard from "./ContactoCard";
 
 
-    
-// Función para alternar el sentido del orden
+export default function Buscador({ datos = [], onDelete, onEdit }) {
+
+
+  const [busqueda, setBusqueda] = useState("");
+  const [orden, setOrden] = useState("asc");
+
+
+  // Paginación
+
+  const [paginaActual, setPaginaActual] = useState(1);
+  const contactosPorPagina = 5;
+
+
+
+  // ============================
+  // FILTRAR CONTACTOS
+  // ============================
+
+  let resultados = datos;
+  if (busqueda.trim()) {
+
+    const termino = busqueda.toLowerCase();
+    resultados = datos.filter((contacto) =>
+      contacto.nombre.toLowerCase().includes(termino)
+    );
+
+  }
+
+
+
+  // ============================
+  // ORDENAR CONTACTOS
+  // ============================
+
+  resultados = [...resultados].sort((a, b) =>
+    orden === "asc"
+      ? a.nombre.localeCompare(b.nombre)
+      : b.nombre.localeCompare(a.nombre)
+
+  );
+
+
+
+
+  // ============================
+  // PAGINACIÓN
+  // ============================
+
+
+  const totalPaginas = Math.ceil(
+    resultados.length / contactosPorPagina
+  );
+
+
+
+  const indiceFinal = paginaActual * contactosPorPagina;
+  const indiceInicial = indiceFinal - contactosPorPagina;
+
+
+
+  const contactosPagina = resultados.slice(
+    indiceInicial,
+    indiceFinal
+  );
+
+
+
+
+
+  // Cambiar orden
+
   const alternarOrden = () => {
-    if (orden === "asc") setOrden("desc");
-    else if (orden === "desc") setOrden("asc");
+    setOrden(
+
+      orden === "asc"
+        ? "desc"
+        : "asc"
+    );
   };
 
+
+
+
+
+  // Buscar y volver a página 1
+
+  const cambiarBusqueda = (e) => {
+    setBusqueda(e.target.value);
+    setPaginaActual(1);
+
+
+  };
+
+
+
+
+
+  // Página siguiente
+
+  const siguientePagina = () => {
+
+    if (paginaActual < totalPaginas) {
+
+      setPaginaActual(paginaActual + 1);
+
+    }
+
+
+  };
+
+
+
+
+
+  // Página anterior
+
+  const paginaAnterior = () => {
+
+
+    if (paginaActual > 1) {
+
+      setPaginaActual(paginaActual - 1);
+
+    }
+
+
+  };
+
+
+
+
+
+
+
   return (
+
     <div className="space-y-6">
-      {/* Contenedor de Búsqueda y Botón de Ordenar */}
+
+
+
+
+
+      {/* BUSCADOR Y ORDEN */}
+
+
       <div className="flex flex-col sm:flex-row gap-3">
+
+
+
         <input
+
+
           type="text"
+
+
           placeholder="Buscar por nombre..."
+
+
           value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
+
+
+          onChange={cambiarBusqueda}
+
+
           className="flex-1 px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-lime-500 bg-white shadow-sm"
+
+
         />
 
+
+
+
         <button
+
+
           onClick={alternarOrden}
-          className="flex items-center justify-center gap-2 px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium rounded-lg border border-neutral-300 transition-colors cursor-pointer"
+
+
+          className="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 rounded-lg border"
+
+
         >
-          <span>Ordenar:</span>
-          <span className="font-bold text-lime-700">
-            {orden === "asc" ? "A-Z ↑" : "Z-A ↓"}
+
+
+          Ordenar:
+
+
+          <span className="font-bold text-lime-700 ml-2">
+
+
+            {orden === "asc"
+
+              ? "A-Z ↑"
+
+              : "Z-A ↓"
+
+            }
+
+
           </span>
+
+
         </button>
+
+
+
       </div>
 
-      {/* Grid con los contactos filtrados y ordenados */}
+
+
+
+
+
+
+      {/* CONTACTOS */}
+
+
+
       <section className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {resultados.length > 0 ? (
-          resultados.map((contacto) => (
+
+
+
+        {contactosPagina.length > 0 ? (
+
+
+
+          contactosPagina.map((contacto) => (
+
+
+
             <ContactoCard
+
+
               key={contacto.id}
+
+
               {...contacto}
+
+
               onDelete={onDelete}
+
+
               onEdit={onEdit}
+
+
             />
+
+
+
           ))
+
+
+
         ) : (
-          <p className="col-span-full text-center text-neutral-500 text-sm py-4">
+
+
+
+          <p className="col-span-full text-center text-neutral-500">
+
+
             No se encontraron contactos.
+
+
           </p>
+
+
+
         )}
+
+
+
       </section>
+
+
+
+
+
+
+
+      {/* PAGINACIÓN */}
+
+
+
+      {totalPaginas > 1 && (
+
+
+
+        <div className="flex justify-center items-center gap-4 mt-6">
+
+
+
+          <button
+
+
+            onClick={paginaAnterior}
+
+
+            disabled={paginaActual === 1}
+
+
+            className="px-4 py-2 bg-neutral-200 rounded-lg disabled:opacity-50"
+
+
+          >
+
+
+            ⬅ Anterior
+
+
+          </button>
+
+
+
+
+
+          <span className="font-medium">
+
+
+            Página {paginaActual} de {totalPaginas}
+
+
+          </span>
+
+
+
+
+
+          <button
+
+
+            onClick={siguientePagina}
+
+
+            disabled={paginaActual === totalPaginas}
+
+
+            className="px-4 py-2 bg-neutral-200 rounded-lg disabled:opacity-50"
+
+
+          >
+
+
+            Siguiente ➡
+
+
+          </button>
+
+
+
+        </div>
+
+
+
+      )}
+
+
+
+
     </div>
+
   );
+
 }

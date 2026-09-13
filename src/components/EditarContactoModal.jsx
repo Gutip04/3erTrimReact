@@ -9,6 +9,9 @@ export default function EditarContactoModal({ contacto, isOpen, onClose, onGuard
 
   });
 
+  
+
+  
   // Cargar datos del contacto cuando abre el modal o cambia el contacto seleccionado
   useEffect(() => {
     if (contacto) {
@@ -25,7 +28,7 @@ export default function EditarContactoModal({ contacto, isOpen, onClose, onGuard
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onGuardar(formData);
+    onGuardar(formData.id, formData);
     onClose();
   };
 
