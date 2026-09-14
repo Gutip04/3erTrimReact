@@ -2,18 +2,27 @@ import { useEffect, useState } from "react"
 import { actualizarContacto, borrarContacto, crearContacto, obtenerContactos } from "../Services/contactosServices"
 
 
-function UseContactos(){
+function UseContactos(usuario){
 
     const [contactos, setContactos] = useState([])
     const [contactoEditar, setContactoEditar] = useState(null);
+    const [cargando, setCargando] = useState(false)
     
 
 
 
     useEffect(()  =>{
+        
 
         async function obtener() {
             
+            if(!usuario){
+                setContactos([])
+                return
+            }
+
+            setCargando(true)
+
             try {
                 const data = await obtenerContactos()
                 
@@ -36,12 +45,14 @@ function UseContactos(){
             } catch (error) {
                 console.log("error al obtener contactos", error);
                 
+            }finally{
+                setCargando(false)
             }
         }
 
         obtener()
 
-    }, [])
+    }, [usuario])
 
 
     async function agregarContacto(nuevoContacto) {
@@ -64,6 +75,7 @@ function UseContactos(){
 
         } catch (error) {
             console.error("error", error);
+            alert("No se pudo agregar el contacto");
             
         }
 
@@ -94,17 +106,22 @@ function UseContactos(){
 
         } catch (error) {
             console.log("No se pudo eliminar al contacto");
+            alert("No se pudo eliminar el contacto");
             
         }
     }
 
     async function editarContacto(id, contactoActualizado) {
         
-        if(!contactoActualizado) return alert("No hay datos para actualizar")
+        if(!contactoActualizado || !id) return alert("No hay datos para actualizar")
      
         
         try{
             const data = await actualizarContacto(id,contactoActualizado)
+
+            if (!data || !data.id) {
+            throw new Error("Respuesta inválida del servidor");
+            }
 
             setContactos((prev) => {
                 return prev.map((contacto) =>{
@@ -125,6 +142,7 @@ function UseContactos(){
 
     return{
         contactos,
+        cargando,
         agregarContacto,
         eliminarContacto,
         editarContacto,

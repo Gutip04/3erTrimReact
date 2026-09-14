@@ -1,8 +1,11 @@
-const API_URL = "http://localhost:3001/contactos";
+import { getAuthHeaders } from "./authApi";
+const API_CONTACTO = "http://localhost:5000/api/contactos";
 
 export async function obtenerContactos(){
     try{
-        const response = await fetch(API_URL)
+        const response = await fetch(API_CONTACTO,{
+            headers: getAuthHeaders()
+        })
 
         if(!response.ok) {
             throw new error("Error al obtener los contactos")
@@ -44,11 +47,9 @@ export async function  crearContacto(nuevoContacto) {
 
 
     try{
-        const response = await fetch(API_URL, {
+        const response = await fetch(API_CONTACTO, {
             method: "POST",
-            headers: {
-                "Content-Type" : "application/json"
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify(nuevoContacto)
         }
     )
@@ -85,8 +86,9 @@ export async function borrarContacto(id) {
     }
     
     try{
-        const response = await fetch(`${API_URL}/${id}`, {
-            method : "DELETE"
+        const response = await fetch(`${API_CONTACTO}/${id}`, {
+            method : "DELETE",
+            headers: getAuthHeaders()
         })
 
         if(!response.ok){
@@ -128,20 +130,18 @@ export async function actualizarContacto(id, contactoActualizado) {
             return 
         }
 
-        const responde = await fetch(`${API_URL}/${id}`, {
+        const responde = await fetch(`${API_CONTACTO}/${id}`, {
             method : "PATCH",
-            headers: {
-                "Content-Type" : "application/json" 
-            },
+            headers: getAuthHeaders(),
             body: JSON.stringify(contactoActualizado)
         })
 
-        if(!responde.ok){
-            throw new Error("No se pudo actualizar el Contacto")
-        }
-
+        
         const data = await responde.json()
-
+        if(!responde.ok){
+            throw new Error(data.mensaje || "No se pudo actualizar el Contacto")
+        }
+        
         return data
 
     } catch (error) {
