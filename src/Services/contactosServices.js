@@ -1,5 +1,6 @@
 import { getAuthHeaders } from "./authApi";
-const API_CONTACTO = "http://localhost:5000/api/contactos";
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const API_CONTACTO = `${BASE_URL}/contactos`;
 
 export async function obtenerContactos(){
     try{
